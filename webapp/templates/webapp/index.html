@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12" id="student-form">
+            <h2 class="font-weight-bold text-center my-3"> TODO PROJECT </h2>
+            <form method="post" action="/" id="form">
+                {% csrf_token %}
+                <div class="col-md-12">
+                     <div class="form-group">
+                        <label for="name">Name</label>
+                        <input name="name" type="text" class="form-control" id="name" placeholder="Name">
+                      </div>
+                </div>
+                <div class="col-md-12">
+                     <div class="form-group">
+                        <label for="email">Email</label>
+                        <input name="email" type="email" class="form-control" id="email" placeholder="Email">
+                      </div>
+                </div>
+                <div class="col-md-12">
+                     <div class="form-group">
+                        <label for="group">Group</label>
+                        <input name="group" type="text" class="form-control" id="group" placeholder="Group">
+                      </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="my-1 mr-2" for="completed">Completed</label>
+                        <select class="custom-select my-1 mr-sm-2" id="completed" name="completed">
+                            <option selected>Choose...</option>
+                            <option value="True">True</option>
+                            <option value="False">False</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary">Create Student</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-12">
+           <table class="table">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Group</th>
+                  <th scope="col">Completed</th>
+                  <th scope="col"></th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody id="student-table">
+                {% for student in students %}
+                <tr>
+                  <th scope="row">{{ student.id }}</th>
+                  <td>{{ student.name }}</td>
+                  <td>{{ student.email }}</td>
+                  <td>{{ student.group }}</td>
+                  <td>{{ student.completed }}</td>
+                  <td>
+                      <a href="/update/{{student.id}}/" class="btn btn-outline-warning btn-sm">Edit</a>
+                  </td>
+                  <td>
+                      <form action="/delete/{{student.id}}/" method="post">
+                          {% csrf_token %}
+                          <button type="submit" class="btn btn-outline-danger btn-sm" id="submit">Delete</button>
+                      </form>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock%}
